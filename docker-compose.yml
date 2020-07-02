@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    image: bitnami/mariadb
+    container_name: db
+    environment:
+      - TZ=Africa/Nairobi
+      - MARIADB_REPLICATION_MODE=master
+      - MARIADB_REPLICATION_USER=repl_user
+      - MARIADB_REPLICATION_PASSWORD=repl_password   
+      - MARIADB_ROOT_USER=root
+      - MARIADB_ROOT_PASSWORD=password
+      - MARIADB_DATABASE=ehrserver2
+    ports:
+      - '3606'
+  ehrserver:
+    build: .
+    container_name: ehserver
+    ports:
+      - "8090:8090"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    links:
+      - db:db
+    environment:
+      EHRSERVER_REST_SECRET: "6067dba9-1417-41c5-b1af-92208c77ce77"
+      EHRSERVER_SNQUERY_KEY: "22222222-2222-2222-2222-222222222222"
+      EHRSERVER_EMAIL_FROM: "no-reply@doc.com"
+      EHRSERVER_EMAIL_HOST: "smtp.seserver.net"
+      EHRSERVER_EMAIL_PORT: "587"
+      EHRSERVER_EMAIL_USER: "youruser"
+      EHRSERVER_EMAIL_PASS: "yourpassword"
+      EHRSERVER_ALLOW_WEB_USER_REGISTER: "true"
