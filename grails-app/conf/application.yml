@@ -90,6 +90,10 @@ aws:
 
 ---
 grails:
+    cors:
+        enabled: true
+        allowedOrigins:
+            - http://localhost:4200
     mail:
         host: ${EHRSERVER_EMAIL_HOST}
         port: ${EHRSERVER_EMAIL_PORT}

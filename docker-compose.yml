@@ -3,6 +3,8 @@ services:
   db:
     image: bitnami/mariadb
     container_name: db
+    volumes:
+      - ./db_data:/bitnami
     environment:
       - TZ=Africa/Nairobi
       - MARIADB_REPLICATION_MODE=master
@@ -14,7 +16,7 @@ services:
     ports:
       - '3606'
   ehrserver:
-    build: .
+    image: mernat/ehrserver:v3
     container_name: ehserver
     ports:
       - "8090:8090"
